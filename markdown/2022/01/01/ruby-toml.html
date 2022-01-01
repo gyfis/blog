@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Hey Ruby, how’s your TOML? | Dev stories</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Hey Ruby, how’s your TOML?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A state of TOML implementations in Ruby" />
+<meta property="og:description" content="A state of TOML implementations in Ruby" />
+<link rel="canonical" href="https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html" />
+<meta property="og:url" content="https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html" />
+<meta property="og:site_name" content="Dev stories" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-01-01T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Hey Ruby, how’s your TOML?" />
+<script type="application/ld+json">
+{"url":"https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html","@type":"BlogPosting","headline":"Hey Ruby, how’s your TOML?","dateModified":"2022-01-01T00:00:00-06:00","datePublished":"2022-01-01T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html"},"description":"A state of TOML implementations in Ruby","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://gyfis.github.io/blog/feed.xml" title="Dev stories" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Dev stories</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Hey Ruby, how&#39;s your TOML?</h1><p class="page-description">A state of TOML implementations in Ruby</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-01T00:00:00-06:00" itemprop="datePublished">
+        Jan 1, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Tomas Hromada</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#markdown">markdown</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#hey-ruby-hows-your-toml">Hey Ruby, how’s your TOML?</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#gem-install-toml-and-move-on">gem install toml and move on…?</a></li>
+<li class="toc-entry toc-h2"><a href="#whats-in-the-box">What’s in the box?</a></li>
+<li class="toc-entry toc-h2"><a href="#roll-your-own">Roll your own!</a></li>
+<li class="toc-entry toc-h2"><a href="#toml-compliance--performance-comparison">TOML compliance &amp; performance comparison</a></li>
+<li class="toc-entry toc-h2"><a href="#great-so-what-now">Great, so what now?</a></li>
+</ul>
+</li>
+</ul><h1 id="hey-ruby-hows-your-toml">
+<a class="anchor" href="#hey-ruby-hows-your-toml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hey Ruby, how’s your TOML?</h1>
+
+<p>At <a href="https://betterstack.com">BetterStack</a>, we use Ruby for a part of our infrastructure orchestration, and we use TOML for our script configuration needs. As you may know, <a href="https://github.com/toml-lang/toml">TOML (Tom’s Obvious, Minimal Language)</a> is 
+a configuration file format that’s easy to read due to obvious semantics.</p>
+
+<p>Since I dabble into Rust development a little and TOML is pretty popular over there, selecting it instead of YAML or JSON was an easy choice, due to its ease of use and straightforward syntax. Unfortunately, the state of TOML libraries in Ruby is a bit more complex at this point.</p>
+
+<p>NOTE: This article is written at the end of 2021. The landscape of TOML gems may be a bit different, so treat the information presented here accordingly.</p>
+
+<h2 id="gem-install-toml-and-move-on">
+<a class="anchor" href="#gem-install-toml-and-move-on" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">gem install toml</code> and move on…?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">TOML</code> is a versioned file format with it’s first major version (v1.0.0) released at the beginning of 2021. Checking out the <a href="https://github.com/toml-lang/toml/wiki">project wiki</a> shows that there’s <em>a lot</em> of implementations that are compliant with the v1.0.0 spec. However, Ruby shows up elsewhere in the list, five times total:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">tomlrb</code> gem by @fbernier stated as v1.0.0-rc.1 compliant, and</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">toml-rb</code> gem by @emancu) stated as v0.5.0 compliant</li>
+</ul>
+
+<p>followed by</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">toml2</code> gem by @charliesome,</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">toml</code> gem by @jm, and</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">tomlp</code> gem by @sandeepravi,
+all of which have unknown compliance based on the wiki.</li>
+</ul>
+
+<p>A quick search on RubyMine lets us know there are even <em>more</em> gems - <code class="language-plaintext highlighter-rouge">toml-ruby</code>, <code class="language-plaintext highlighter-rouge">multi_toml</code>, <code class="language-plaintext highlighter-rouge">ptolemy</code>, <code class="language-plaintext highlighter-rouge">tock</code>, <code class="language-plaintext highlighter-rouge">toml-rb-hs</code>, <code class="language-plaintext highlighter-rouge">toby</code>, to mention a few showing up at the top.</p>
+
+<p>Most of these additional gems have releases during 2013 (what a year for TOML that must’ve been!) - <code class="language-plaintext highlighter-rouge">toby</code> and <code class="language-plaintext highlighter-rouge">toml-rb-hs</code> are the exceptions, and <code class="language-plaintext highlighter-rouge">toml-rb-hs</code> is a derailed fork of <code class="language-plaintext highlighter-rouge">toml-rb</code>.</p>
+
+<p>Quite a mess!</p>
+
+<h2 id="whats-in-the-box">
+<a class="anchor" href="#whats-in-the-box" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s in the box?</h2>
+
+<p>Let’s inspect <code class="language-plaintext highlighter-rouge">tomlrb</code>, <code class="language-plaintext highlighter-rouge">toml-rb</code>, <code class="language-plaintext highlighter-rouge">toml2</code>, <code class="language-plaintext highlighter-rouge">toml</code>, <code class="language-plaintext highlighter-rouge">tomlp</code>, and <code class="language-plaintext highlighter-rouge">toby</code>, as the remaining is clearly outdated and don’t support anything near the v1.0.0 TOML spec.</p>
+
+<p>Most of these gems use some kind of grammar or a parsing library - like racc/yacc, citrus, or parslet. This makes sense - TOML even has the language specification in the ABNF format <a href="https://github.com/toml-lang/toml/blob/master/toml.abnf">present in the root of the project</a>, so it should be fairly straightforward to use that definition as a base for a decoder/encoder library.</p>
+
+<p>Starting from the oldest, the <code class="language-plaintext highlighter-rouge">tomlp</code> gem (<a href="https://github.com/sandeepravi/tomlp"><code class="language-plaintext highlighter-rouge">sandeepravi/tomlp</code></a>) uses the <code class="language-plaintext highlighter-rouge">treewtop</code> grammar and was updated 9 years ago. Although the author says (in bold <em>and</em> itallics) that <em><strong>You can use this in production</strong></em>, I’m skipping this one.</p>
+
+<p>Moving on to the <code class="language-plaintext highlighter-rouge">toml2</code> gem (<a href="https://github.com/haileys/toml2"><code class="language-plaintext highlighter-rouge">haileys/toml2</code></a>), also updated 9 years ago, it’s interesting to note that there’s no grammar present in this library - only a five-line, 340-character long, <a href="https://github.com/haileys/toml2/blob/master/lib/toml.rb#L41-L47">perfectly aligned 😎</a> ruby eval block. There’s also a note that this gem is <code class="language-plaintext highlighter-rouge">a gold plated, production grade, high performance</code> parser, which makes me a little sad to ignore it moving forward.</p>
+
+<p>Here’s a little table summarizing the stats of the remaining libraries (ordered alphabetically):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gem</th>
+      <th>Grammar</th>
+      <th>Last update</th>
+      <th>commits in the last 12 month</th>
+      <th>RubyGems Downloads (all/latest version)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/joe-p/toby"><code class="language-plaintext highlighter-rouge">toby</code></a></td>
+      <td>Citrus</td>
+      <td>Jan 31, 2021</td>
+      <td>24</td>
+      <td>723 / 10,205</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/jm/toml"><code class="language-plaintext highlighter-rouge">toml</code></a></td>
+      <td>Parslet</td>
+      <td>Dec 1, 2021</td>
+      <td>11</td>
+      <td>667,568 / 16,041,996</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/emancu/toml-rb"><code class="language-plaintext highlighter-rouge">toml-rb</code></a></td>
+      <td>Citrus</td>
+      <td>Nov 22, 2021</td>
+      <td>30</td>
+      <td>238,443 / 18,650,046</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/fbernier/tomlrb"><code class="language-plaintext highlighter-rouge">tomlrb</code></a></td>
+      <td>Racc</td>
+      <td>Feb 19, 2021</td>
+      <td>6</td>
+      <td>2,866,930/23,665,130</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It’s interesting to see that the total downloads are pretty similar between the top three gems - and none of them are abandonned. But it’s still not clear how one should select which gem to use…</p>
+
+<h2 id="roll-your-own">
+<a class="anchor" href="#roll-your-own" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roll your own!</h2>
+
+<p>The obvious solution is to take the ABNF definition, <a href="https://github.com/steveklabnik/abnf">transform it to a Ruby regex</a> or to a different known format, and roll a solution off that. I even have a great name - <code class="language-plaintext highlighter-rouge">yatoml</code>, as in <em>Yet Another TOML</em>. A great idea, right? … Right?</p>
+
+<p><img src="https://xkcd.com/927/" alt="" title="Obligatory standards reference"></p>
+
+<h2 id="toml-compliance--performance-comparison">
+<a class="anchor" href="#toml-compliance--performance-comparison" aria-hidden="true"><span class="octicon octicon-link"></span></a>TOML compliance &amp; performance comparison</h2>
+
+<p>Since I don’t want to pollute the space with yet another gem library, I want to use (and optionally improve) the most mature gem. I was able to compare the decoder compliance against the v1.0.0 TOML standard using the <a href="https://github.com/BurntSushi/toml-test"><code class="language-plaintext highlighter-rouge">toml-test</code></a> test suite. I’ll summarize the results below, but if you wanted to run this yourself, here’s the repository: <a href="https://github.com/gyfis/toml-comparison">toml-comparison</a>.</p>
+
+<p>I measured the compliance against the latest toml-test suite, as well as a very simple performance benchmark (I compared the time it takes to run the test-suite on my MacBook Air).</p>
+
+<p>There are 306 test cases in <code class="language-plaintext highlighter-rouge">toml-test</code>. Here are the comparison results:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gem</th>
+      <th>Failed cases</th>
+      <th>Duration*</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/joe-p/toby"><code class="language-plaintext highlighter-rouge">toby</code></a></td>
+      <td>89</td>
+      <td>121.9s</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/jm/toml"><code class="language-plaintext highlighter-rouge">toml</code></a></td>
+      <td>89</td>
+      <td>58.97s</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/emancu/toml-rb"><code class="language-plaintext highlighter-rouge">toml-rb</code></a></td>
+      <td>80</td>
+      <td>134.45s</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/fbernier/tomlrb"><code class="language-plaintext highlighter-rouge">tomlrb</code></a></td>
+      <td>23</td>
+      <td>41.1s</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>*I averaged three test runs for each gem.</p>
+
+<p>Based on these test runs, <code class="language-plaintext highlighter-rouge">tomlrb</code> comes on the top when comparing both v1.0.0 TOML spec compliance as well as speed performance.</p>
+
+<hr>
+
+<p>Other notable facts: <code class="language-plaintext highlighter-rouge">toby</code>, <code class="language-plaintext highlighter-rouge">toml</code>, and <code class="language-plaintext highlighter-rouge">toml-rb</code> convert all times to a <code class="language-plaintext highlighter-rouge">Time</code> or <code class="language-plaintext highlighter-rouge">DateTime</code> class, while <code class="language-plaintext highlighter-rouge">tomlrb</code> uses it’s internal classes <code class="language-plaintext highlighter-rouge">LocalDate</code>, <code class="language-plaintext highlighter-rouge">LocalTime</code>, and <code class="language-plaintext highlighter-rouge">LocalDateTime</code>. On a similar note, only <code class="language-plaintext highlighter-rouge">toby</code> implements internal classes for <code class="language-plaintext highlighter-rouge">Binary</code>, <code class="language-plaintext highlighter-rouge">Octal</code> and <code class="language-plaintext highlighter-rouge">Hexadecimal</code> numbers. All of these decisions make sense to me - the trade-off is usually between being more explicit and being easier to use.</p>
+
+<p>I didn’t test the encoders - <code class="language-plaintext highlighter-rouge">tomlrb</code> doesn’t have one, and it seemed superfluous since the decoders are not 100% v1.0.0 compliant.</p>
+
+<hr>
+
+<h2 id="great-so-what-now">
+<a class="anchor" href="#great-so-what-now" aria-hidden="true"><span class="octicon octicon-link"></span></a>Great, so what now?</h2>
+
+<p>Based on my amateur comparison, it would seem <code class="language-plaintext highlighter-rouge">tomlrb</code> is the closest gem to get to v1.0.0.</p>
+
+<p>So let’s get them there!</p>
+
+<p>I submitted a PR to the <code class="language-plaintext highlighter-rouge">tomlrb</code> gem to cover a few of the remaining 23 cases, and hopefully with combined forces we can get it to 100%. The fact that it’s the fastest parser I tested is a nice cherry on top.</p>
+
+
+  </div><a class="u-url" href="/blog/markdown/2022/01/01/ruby-toml.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Unordered notes about software engineering by Tomas</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/gyfis" target="_blank" title="gyfis"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/gyfis" target="_blank" title="gyfis"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
