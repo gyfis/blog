@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Hey Ruby, how’s your TOML?" />
 <script type="application/ld+json">
-{"url":"https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html","headline":"Hey Ruby, how’s your TOML?","dateModified":"2022-01-01T00:00:00-06:00","datePublished":"2022-01-01T00:00:00-06:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html"},"description":"A state of TOML implementations in Ruby","@context":"https://schema.org"}</script>
+{"headline":"Hey Ruby, how’s your TOML?","dateModified":"2022-01-01T00:00:00-06:00","datePublished":"2022-01-01T00:00:00-06:00","url":"https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://gyfis.github.io/blog/markdown/2022/01/01/ruby-toml.html"},"description":"A state of TOML implementations in Ruby","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://gyfis.github.io/blog/feed.xml" title="Dev stories" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -111,16 +111,16 @@ window.onload = wrap_img;
 <a class="anchor" href="#hey-ruby-hows-your-toml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hey Ruby, how’s your TOML?</h1>
 
 <p>At <a href="https://betterstack.com">BetterStack</a>, we use Ruby for a part of our infrastructure orchestration, and we use TOML for our script configuration needs. As you may know, <a href="https://github.com/toml-lang/toml">TOML (Tom’s Obvious, Minimal Language)</a> is 
-a configuration file format that’s easy to read due to obvious semantics.</p>
+a configuration file format that’s easy to read with obvious semantics.</p>
 
 <p>Since I dabble into Rust development a little and TOML is pretty popular over there, selecting it instead of YAML or JSON was an easy choice, due to its ease of use and straightforward syntax. Unfortunately, the state of TOML libraries in Ruby is a bit more complex at this point.</p>
 
-<p>NOTE: This article is written at the end of 2021. The landscape of TOML gems may be a bit different, so treat the information presented here accordingly.</p>
+<p>NOTE: This article was written at the start of 2022. The landscape of TOML gems may be a bit different, so treat the information presented here accordingly.</p>
 
 <h2 id="gem-install-toml-and-move-on">
 <a class="anchor" href="#gem-install-toml-and-move-on" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">gem install toml</code> and move on…?</h2>
 
-<p><code class="language-plaintext highlighter-rouge">TOML</code> is a versioned file format with it’s first major version (v1.0.0) released at the beginning of 2021. Checking out the <a href="https://github.com/toml-lang/toml/wiki">project wiki</a> shows that there’s <em>a lot</em> of implementations that are compliant with the v1.0.0 spec. However, Ruby shows up elsewhere in the list, five times total:</p>
+<p><code class="language-plaintext highlighter-rouge">TOML</code> is a versioned file format with it’s first major version (v1.0.0) released at the beginning of 2021. Checking out the <a href="https://github.com/toml-lang/toml/wiki">project wiki</a> shows that there’s <em>a lot</em> of implementations that are compliant with the v1.0.0 spec. However, Ruby only shows up elsewhere in the list, five times total:</p>
 
 <ul>
   <li>
@@ -137,20 +137,21 @@ a configuration file format that’s easy to read due to obvious semantics.</p>
   <li>
 <code class="language-plaintext highlighter-rouge">toml</code> gem by @jm, and</li>
   <li>
-<code class="language-plaintext highlighter-rouge">tomlp</code> gem by @sandeepravi,
-all of which have unknown compliance based on the wiki.</li>
+<code class="language-plaintext highlighter-rouge">tomlp</code> gem by @sandeepravi,</li>
 </ul>
+
+<p>all of which have unknown compliance based on the wiki.</p>
 
 <p>A quick search on RubyMine lets us know there are even <em>more</em> gems - <code class="language-plaintext highlighter-rouge">toml-ruby</code>, <code class="language-plaintext highlighter-rouge">multi_toml</code>, <code class="language-plaintext highlighter-rouge">ptolemy</code>, <code class="language-plaintext highlighter-rouge">tock</code>, <code class="language-plaintext highlighter-rouge">toml-rb-hs</code>, <code class="language-plaintext highlighter-rouge">toby</code>, to mention a few showing up at the top.</p>
 
-<p>Most of these additional gems have releases during 2013 (what a year for TOML that must’ve been!) - <code class="language-plaintext highlighter-rouge">toby</code> and <code class="language-plaintext highlighter-rouge">toml-rb-hs</code> are the exceptions, and <code class="language-plaintext highlighter-rouge">toml-rb-hs</code> is a derailed fork of <code class="language-plaintext highlighter-rouge">toml-rb</code>.</p>
+<p>Most of these additional gems have their latest releases during 2013 (what a year for TOML that must’ve been!) - <code class="language-plaintext highlighter-rouge">toby</code> and <code class="language-plaintext highlighter-rouge">toml-rb-hs</code> are the exceptions, but <code class="language-plaintext highlighter-rouge">toml-rb-hs</code> is a derailed fork of <code class="language-plaintext highlighter-rouge">toml-rb</code>.</p>
 
 <p>Quite a mess!</p>
 
 <h2 id="whats-in-the-box">
 <a class="anchor" href="#whats-in-the-box" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s in the box?</h2>
 
-<p>Let’s inspect <code class="language-plaintext highlighter-rouge">tomlrb</code>, <code class="language-plaintext highlighter-rouge">toml-rb</code>, <code class="language-plaintext highlighter-rouge">toml2</code>, <code class="language-plaintext highlighter-rouge">toml</code>, <code class="language-plaintext highlighter-rouge">tomlp</code>, and <code class="language-plaintext highlighter-rouge">toby</code>, as the remaining is clearly outdated and don’t support anything near the v1.0.0 TOML spec.</p>
+<p>Let’s inspect <code class="language-plaintext highlighter-rouge">tomlrb</code>, <code class="language-plaintext highlighter-rouge">toml-rb</code>, <code class="language-plaintext highlighter-rouge">toml2</code>, <code class="language-plaintext highlighter-rouge">toml</code>, <code class="language-plaintext highlighter-rouge">tomlp</code>, and <code class="language-plaintext highlighter-rouge">toby</code>, as the remaining gems are clearly outdated and don’t support anything near the v1.0.0 TOML spec.</p>
 
 <p>Most of these gems use some kind of grammar or a parsing library - like racc/yacc, citrus, or parslet. This makes sense - TOML even has the language specification in the ABNF format <a href="https://github.com/toml-lang/toml/blob/master/toml.abnf">present in the root of the project</a>, so it should be fairly straightforward to use that definition as a base for a decoder/encoder library.</p>
 
@@ -158,7 +159,7 @@ all of which have unknown compliance based on the wiki.</li>
 
 <p>Moving on to the <code class="language-plaintext highlighter-rouge">toml2</code> gem (<a href="https://github.com/haileys/toml2"><code class="language-plaintext highlighter-rouge">haileys/toml2</code></a>), also updated 9 years ago, it’s interesting to note that there’s no grammar present in this library - only a five-line, 340-character long, <a href="https://github.com/haileys/toml2/blob/master/lib/toml.rb#L41-L47">perfectly aligned 😎</a> ruby eval block. There’s also a note that this gem is <code class="language-plaintext highlighter-rouge">a gold plated, production grade, high performance</code> parser, which makes me a little sad to ignore it moving forward.</p>
 
-<p>Here’s a little table summarizing the stats of the remaining libraries (ordered alphabetically):</p>
+<p>Here’s a summary of the remaining libraries (ordered alphabetically):</p>
 
 <table>
   <thead>
@@ -202,21 +203,21 @@ all of which have unknown compliance based on the wiki.</li>
   </tbody>
 </table>
 
-<p>It’s interesting to see that the total downloads are pretty similar between the top three gems - and none of them are abandonned. But it’s still not clear how one should select which gem to use…</p>
+<p>It’s interesting to see that the total downloads are pretty similar between the top three gems - and none of them are abandoned. But it’s still not clear how one should select which gem to use…</p>
 
 <h2 id="roll-your-own">
 <a class="anchor" href="#roll-your-own" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roll your own!</h2>
 
-<p>The obvious solution is to take the ABNF definition, <a href="https://github.com/steveklabnik/abnf">transform it to a Ruby regex</a> or to a different known format, and roll a solution off that. I even have a great name - <code class="language-plaintext highlighter-rouge">yatoml</code>, as in <em>Yet Another TOML</em>. A great idea, right? … Right?</p>
+<p>The obvious solution is to take the ABNF definition, <a href="https://github.com/steveklabnik/abnf">transform it to a Ruby regex</a> or to a different usable format, and roll a solution off that. I even have a great name - <code class="language-plaintext highlighter-rouge">yatoml</code>, as in <em>Yet Another TOML</em>. A great idea, right? … Right?</p>
 
-<p><img src="https://xkcd.com/927/" alt="" title="Obligatory standards reference"></p>
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt="" title="Obligatory standards reference"></p>
 
 <h2 id="toml-compliance--performance-comparison">
 <a class="anchor" href="#toml-compliance--performance-comparison" aria-hidden="true"><span class="octicon octicon-link"></span></a>TOML compliance &amp; performance comparison</h2>
 
 <p>Since I don’t want to pollute the space with yet another gem library, I want to use (and optionally improve) the most mature gem. I was able to compare the decoder compliance against the v1.0.0 TOML standard using the <a href="https://github.com/BurntSushi/toml-test"><code class="language-plaintext highlighter-rouge">toml-test</code></a> test suite. I’ll summarize the results below, but if you wanted to run this yourself, here’s the repository: <a href="https://github.com/gyfis/toml-comparison">toml-comparison</a>.</p>
 
-<p>I measured the compliance against the latest toml-test suite, as well as a very simple performance benchmark (I compared the time it takes to run the test-suite on my MacBook Air).</p>
+<p>I measured the compliance against the latest toml-test suite, as well as a <em>very</em> basic performance benchmark (I compared the time it takes to run the test-suite on my MacBook Air).</p>
 
 <p>There are 306 test cases in <code class="language-plaintext highlighter-rouge">toml-test</code>. Here are the comparison results:</p>
 
@@ -252,7 +253,7 @@ all of which have unknown compliance based on the wiki.</li>
   </tbody>
 </table>
 
-<p>*I averaged three test runs for each gem.</p>
+<p>*I averaged three test suite runs for each gem.</p>
 
 <p>Based on these test runs, <code class="language-plaintext highlighter-rouge">tomlrb</code> comes on the top when comparing both v1.0.0 TOML spec compliance as well as speed performance.</p>
 
@@ -267,12 +268,13 @@ all of which have unknown compliance based on the wiki.</li>
 <h2 id="great-so-what-now">
 <a class="anchor" href="#great-so-what-now" aria-hidden="true"><span class="octicon octicon-link"></span></a>Great, so what now?</h2>
 
-<p>Based on my amateur comparison, it would seem <code class="language-plaintext highlighter-rouge">tomlrb</code> is the closest gem to get to v1.0.0.</p>
+<p>Based on the comparison, it would seem <code class="language-plaintext highlighter-rouge">tomlrb</code> is the closest gem to get to v1.0.0.</p>
 
 <p>So let’s get them there!</p>
 
 <p>I submitted a PR to the <code class="language-plaintext highlighter-rouge">tomlrb</code> gem to cover a few of the remaining 23 cases, and hopefully with combined forces we can get it to 100%. The fact that it’s the fastest parser I tested is a nice cherry on top.</p>
 
+<p>Till next time!</p>
 
   </div><a class="u-url" href="/blog/markdown/2022/01/01/ruby-toml.html" hidden></a>
 </article>
